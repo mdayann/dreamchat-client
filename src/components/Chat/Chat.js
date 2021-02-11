@@ -35,7 +35,7 @@ const Chat = ({ location }) => {
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
-  }, []);
+  }, [messages]);
 
   // sending messages
   const sendMessage = (event) => {
@@ -43,10 +43,9 @@ const Chat = ({ location }) => {
 
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));
+      console.log(messages);
     }
   };
-
-  console.log(message, messages);
 
   return (
     <div className="outerContainer">
