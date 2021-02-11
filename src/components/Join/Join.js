@@ -14,7 +14,7 @@ const Join = () => {
   return (
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
-        <h1 className="heading">Join</h1>
+        <h1 className="heading">dreamchat</h1>
         <div>
           <input
             placeholder="Name"
@@ -40,6 +40,7 @@ const Join = () => {
               Sign in
             </button>
           </Link>
+          <p className="version">v1.0.0</p>
         </div>
       </div>
     </div>

@@ -1,26 +1,33 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
+
+import './Chat.css';
+
+import InfoBar from '../InfoBar/InfoBar';
+import Input from '../Input/Input';
+import Messages from '../Messages/Messages';
+
+const ENDPOINT = 'https://dreamchat-server.herokuapp.com/';
 
 let socket;
 
 const Chat = ({ location }) => {
-  const [userName, setUserName] = useState('');
-  const [currentRoom, setCurrentRoom] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [name, setName] = useState('');
+  const [room, setRoom] = useState('');
   const [message, setMessage] = useState('');
-  const ENDPOINT = 'localhost:5000';
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
 
-    setUserName(name);
-    setCurrentRoom(room);
+    setName(name);
+    setRoom(room);
 
     socket.emit('join', { name, room }, () => {});
 
@@ -33,7 +40,7 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
-      setMessages((messages) => [...messages, message]);
+      setMessages([...messages, message]);
     });
   }, [messages]);
 
@@ -43,21 +50,18 @@ const Chat = ({ location }) => {
 
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));
-      console.log(messages);
     }
   };
 
   return (
     <div className="outerContainer">
       <div className="container">
-        <input
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          // eslint-disable-next-line no-confusing-arrow
-          onKeyPress={(event) =>
-            // eslint-disable-next-line implicit-arrow-linebreak
-            event.key === 'Enter' ? sendMessage(event) : null
-          }
+        <InfoBar room={room} />
+        <Messages messages={messages} name={name} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
         />
       </div>
     </div>

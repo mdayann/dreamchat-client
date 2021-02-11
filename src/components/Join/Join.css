@@ -68,3 +68,9 @@ body {
 button:focus {
   outline: 0;
 }
+
+.version {
+  color: #fff;
+  text-decoration: none;
+  margin-top: 1rem !important;
+}
