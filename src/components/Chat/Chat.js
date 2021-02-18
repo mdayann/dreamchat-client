@@ -11,7 +11,7 @@ import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 import Messages from '../Messages/Messages';
 
-const ENDPOINT = 'https://dreamchat-server.herokuapp.com/';
+const ENDPOINT = process.env.REACT_APP_BASE_API_URL;
 
 let socket;
 
